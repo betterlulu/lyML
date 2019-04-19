@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>	
+	<property>  
+		<name>hive.metastore.local</name>  
+		<value>false</value>  
+	</property>  
+	<property>  
+		<name>hive.metastore.uris</name>
+        <value>thrift://hadoop-180-004:9083,thrift://docker-220-006:19091,thrift://docker-220-007:19091,thrift://docker-220-008:19091,thrift://hadoop-180-002:9083,thrift://hadoop-180-003:9083</value>
+	</property> 
+</configuration>

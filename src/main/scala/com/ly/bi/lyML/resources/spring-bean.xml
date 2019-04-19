@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/task
+	    http://www.springframework.org/schema/task/spring-task-3.2.xsd
+		http://code.alibabatech.com/schema/dubbo
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <bean id="prometheusServiceImpl" class="com.tc.jt.bi.prometheus.service.impl.PrometheusServiceImpl">
+        <property name="modelManager" ref="modelManager"/>
+        <property name="configService" ref="configService"/>
+    </bean>
+
+    <bean id="modelManager" class="com.tc.jt.bi.prometheus.service.model.manage.ModelManager" init-method="load">
+        <property name="configService" ref="configService"/>
+    </bean>
+
+    <bean id="configService" class="com.tc.jt.bi.prometheus.service.config.ConfigService" init-method="init"/>
+
+
+    <bean id = "modelUpdater" class="com.tc.jt.bi.prometheus.service.model.job.ModelUpdater">
+        <property name="modelManager" ref="modelManager"/>
+    </bean>
+
+    <task:scheduled-tasks>
+        <task:scheduled ref="modelUpdater" method="update" cron="0 0,15,30,45 * * * ?"/>
+    </task:scheduled-tasks>
+</beans>
